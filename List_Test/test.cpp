@@ -4,16 +4,17 @@
 namespace ListTest {
 
 // リストは
-// sentinel -> head_record -> record -> ... -> end_record -> sentinel
+// sentinel -> head_record -> record -> ... -> tail_record -> sentinel
 // という構造で、レコードの連なりを持つ
 // 
-// getHead()は head_record のポインタを返す
-// getEnd()は end_record のポインタを返す
+// getHead()は head_record のイテレータを返す (リストが空であれば sentinel )
+// getTail()は tail_record のイテレータを返す (リストが空であれば sentinel )
+// getEnd()は sentinel のイテレータを返す
 // 
 // insert()の引数にイテレータを指定した場合、
-// 元の場所にあった要素を一つ後ろにずらしてレコードを挿入する
+// イテレータの場所にあった要素を一つ後ろにずらしてレコードを挿入する
 //
-// 挿入する要素を末尾にしたい場合、イテレータを指定しなければ末尾に挿入される
+// イテレータを指定しなければ末尾に挿入される
 
 //======================//
 //       リスト         //
@@ -82,7 +83,7 @@ namespace ListTest {
 		DoublyLinkedList list;
 		list.insert(1);
 
-		DoublyLinkedList::Iterator it = list.getEnd();
+		DoublyLinkedList::Iterator it = list.getHead();
 
 		EXPECT_EQ(0, list.remove(it));
 		EXPECT_EQ(0, list.getSize());
@@ -325,7 +326,7 @@ namespace ListTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it;
 		it = list.getHead();
-		EXPECT_TRUE(it == list.getSentinel());
+		EXPECT_TRUE(it == list.getEnd());
 	}
 
 	//  ID: 24
@@ -396,7 +397,7 @@ namespace ListTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getHeadConst();
-		EXPECT_TRUE(cit == list.getSentinel());
+		EXPECT_TRUE(cit == list.getEndConst());
 	}
 
 	//  ID: 30
@@ -407,7 +408,7 @@ namespace ListTest {
 		list.insert("0", "user");
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getHead();
+		cit = list.getHeadConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
@@ -420,7 +421,7 @@ namespace ListTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getHead();
+		cit = list.getHeadConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user0"));
 	}
 
@@ -432,7 +433,7 @@ namespace ListTest {
 		EXPECT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getHead();
+		cit = list.getHeadConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
@@ -445,10 +446,10 @@ namespace ListTest {
 		list.insert(1);
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEnd();
+		cit = list.getEndConst();
 		EXPECT_EQ(0, list.remove(cit));
 
-		cit = list.getHead();
+		cit = list.getHeadConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
@@ -466,59 +467,59 @@ namespace ListTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it;
 		it = list.getEnd();
-		EXPECT_TRUE(it == list.getSentinel());
+		EXPECT_TRUE(it == list.getEnd());
 	}
 
 	//  ID: 36
 	//  テスト項目: リストに要素が一つある場合に、呼び出した際の挙動
 	//  想定する戻り値: Iterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataTest, TestGetEndDataWhenOneRecord) {
+	TEST(GetTailDataTest, TestGetTailDataWhenOneRecord) {
 		DoublyLinkedList list;
 		list.insert("0", "user");
 
 		DoublyLinkedList::Iterator it;
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
 	}
 
 	//  ID: 37
 	//  テスト項目: リストに二つ以上の要素がある場合に、呼び出した際の挙動
 	//  想定する戻り値: Iterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataTest, TestGetEndDataWhenMoreThanTwo) {
+	TEST(GetTailDataTest, TestGetTailDataWhenMoreThanTwo) {
 		DoublyLinkedList list;
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it;
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
 	}
 
 	//  ID: 38
 	//  テスト項目: データの挿入を行った後に、呼び出した際の挙動
 	//  想定する戻り値: Iterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataTest, TestGetEndDataAfterPush) {
+	TEST(GetTailDataTest, TestGetTailDataAfterPush) {
 		DoublyLinkedList list;
 		EXPECT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::Iterator it;
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
 	}
 
 	//  ID: 39
 	//  テスト項目: データの削除を行った後に、呼び出した際の挙動
 	//  想定する戻り値: Iterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataTest, TestGetEndDataAfterDelete) {
+	TEST(GetTailDataTest, TestGetTailDataAfterDelete) {
 		DoublyLinkedList list;
 		list.insert("0", "user");
 		list.insert(1);
 
 		DoublyLinkedList::Iterator it;
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_EQ(0, list.remove(it));
 
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
 	}
 
@@ -531,63 +532,63 @@ namespace ListTest {
 	//  ID: 41
 	//  テスト項目: リストが空である場合に、呼び出した際の挙動
 	//  想定する戻り値: ConstIterator ダミーノードを指すイテレータが返る
-	TEST(GetEndDataConstTest, TestGetEndDataConstWhenEmpty) {
+	TEST(GetTailDataConstTest, TestGetTailDataConstWhenEmpty) {
 		DoublyLinkedList list;
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEndConst();
-		EXPECT_TRUE(cit == list.getSentinel());
+		cit = list.getTailConst();
+		EXPECT_TRUE(cit == list.getTailConst());
 	}
 
 	//  ID: 42
 	//  テスト項目: リストに要素が一つある場合に、呼び出した際の挙動
 	//  想定する戻り値: ConstIterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataConstTest, TestGetEndDataConstWhenOneRecord) {
+	TEST(GetTailDataConstTest, TestGetTailDataConstWhenOneRecord) {
 		DoublyLinkedList list;
 		list.insert("0", "user");
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEnd();
+		cit = list.getTailConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
 	//  ID: 43
 	//  テスト項目: リストに二つ以上の要素がある場合に、呼び出した際の挙動
 	//  想定する戻り値: ConstIterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataConstTest, TestGetEndDataConstWhenMoreThanTwo) {
+	TEST(GetTailDataConstTest, TestGetTailDataConstWhenMoreThanTwo) {
 		DoublyLinkedList list;
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEnd();
+		cit = list.getTailConst();
 		EXPECT_TRUE(((*cit).score == 1) && ((*cit).userName == "user1"));
 	}
 
 	//  ID: 44
 	//  テスト項目: データの挿入を行った後に、呼び出した際の挙動
 	//  想定する戻り値: ConstIterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataConstTest, TestGetEndDataConstAfterPush) {
+	TEST(GetTailDataConstTest, TestGetTailDataConstAfterPush) {
 		DoublyLinkedList list;
 		EXPECT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEnd();
+		cit = list.getTailConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
 	//  ID: 45
 	//  テスト項目: データの削除を行った後に、呼び出した際の挙動
 	//  想定する戻り値: ConstIterator 末尾要素を指すイテレータが返る
-	TEST(GetEndDataConstTest, TestGetEndDataConstAfterDelete) {
+	TEST(GetTailDataConstTest, TestGetTailDataConstAfterDelete) {
 		DoublyLinkedList list;
 		list.insert("0", "user");
 		list.insert(1);
 
 		DoublyLinkedList::ConstIterator cit;
-		cit = list.getEnd();
+		cit = list.getTailConst();
 		EXPECT_EQ(0, list.remove(cit));
 
-		cit = list.getEnd();
+		cit = list.getTailConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
 	}
 
