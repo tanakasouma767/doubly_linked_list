@@ -49,12 +49,12 @@ public:
             current = record;
         }
 
-        /*
-        ConstIterator(ConstIterator itr) { //コピーコンストラクタの作り方が分からない
+        
+        ConstIterator(const ConstIterator& itr) {
             current = itr.getRecord();
             refList = itr.getList();
         }
-        */
+        
 
         void operator --() { //参照要素を先頭方向へ移動
             assert(getRecord() != NULL && getList() != NULL && !(refList->isSentinel(current->prev)));
@@ -121,9 +121,9 @@ public:
             current = record;
         }
 
-        Iterator(ConstIterator citr) {
-            refList = citr.getList();
-
+        Iterator(const Iterator& itr) {
+            current = itr.getRecord();
+            refList = itr.getList();
         }
 
         Score& operator *() const { //参照要素(レコードの成績構造体)の取得 (非const)

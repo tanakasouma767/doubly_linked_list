@@ -238,7 +238,20 @@ namespace IteratorTest {
 	//  ID: 18
 	//  テスト項目: コピーコンストラクト後の値がコピー元と等しいことをチェック
 	//  想定する戻り値: 
+	TEST(CopyIteratorTest, TestIteratorCopyConstructorTest) {
+		DoublyLinkedList list;
+		list.insert("0", "user");
 
+		DoublyLinkedList::ConstIterator it0 = list.getTail();
+		DoublyLinkedList::ConstIterator it1 = DoublyLinkedList::ConstIterator(it0);
+
+		EXPECT_TRUE(it0 == it1);
+
+		DoublyLinkedList::Iterator it2 = list.getTail();
+		DoublyLinkedList::Iterator it3 = DoublyLinkedList::Iterator(it2);
+
+		EXPECT_TRUE(it2 == it3);
+	}
 
 	//=================================== イテレータの代入を行う ===================================
 
