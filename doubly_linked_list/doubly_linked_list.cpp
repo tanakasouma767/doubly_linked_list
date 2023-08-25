@@ -35,7 +35,7 @@ int main()
         l.insert(score, userName);
     }
 
-    l.print_list();
+    print_list(l);
     
     return 0;
 }

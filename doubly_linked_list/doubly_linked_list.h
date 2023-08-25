@@ -1,12 +1,13 @@
 #include <fstream>
 #include <string> 
+#include <assert.h>
+
+struct Score { //成績データ
+    int score; //スコア
+    std::string userName; //ユーザー名
+};
 
 class DoublyLinkedList { //双方向リスト 挿入と出力のみ実装
-
-    struct Score { //成績データ
-        int score; //スコア
-        std::string userName; //ユーザー名
-    };
 
     struct Record { //リストのレコード(ノード)
 
@@ -27,35 +28,10 @@ public:
         size = 0;
     }
 
-
-    class Iterator { //イテレータクラス
+    class ConstIterator { //constイテレータクラス
     protected:
         DoublyLinkedList* refList;
         Record* current;
-
-    public:
-        //Record* current;
-
-        Iterator() {
-            refList = NULL;
-            current = NULL;
-        }
-
-        Iterator(DoublyLinkedList* list, Record* record) {
-            refList = list;
-            current = record;
-        }
-
-        Record* operator *() { //参照要素(レコード)の取得
-            return current;
-        }
-
-        DoublyLinkedList* getList() { //参照リストの取得
-            return refList;
-        }
-    };
-
-    class ConstIterator : public Iterator { //constイテレータクラス
 
     public:
         
@@ -69,9 +45,12 @@ public:
             current = record;
         }
 
-        ConstIterator(Iterator itr) {
-            current = (*itr);
+        /*
+        ConstIterator(ConstIterator itr) {
+            current = itr.getRecord();
+            refList = itr.getList();
         }
+        */
 
         void operator --() { //参照要素を先頭方向へ移動
             current = current->prev;
@@ -81,20 +60,54 @@ public:
             current = current->next;
         }
 
-        const Record* operator *() { //constで参照要素(レコード)を取得
+        const Score& operator *() const { //constで参照要素(レコードの成績構造体)を取得
+            //assert(getRecord() == NULL || getList() == NULL);
+            return current->score;
+        }
+
+        Record* getRecord() const { //constで参照要素(レコード)を取得
             return current;
         }
 
-        void operator =(ConstIterator itr) { //イテレータの代入
-            current = itr.current;
+        DoublyLinkedList* getList() const { //参照リストの取得
+            return refList;
         }
 
-        bool operator ==(ConstIterator itr) { //イテレータの比較
-            return current == (*itr);
+        int operator =(ConstIterator itr) { //イテレータの代入
+            current = itr.getRecord();
+            refList = itr.getList();
+            return 0;
         }
 
-        bool operator !=(ConstIterator itr) {
-            return current != (*itr);
+        bool operator ==(ConstIterator itr) const { //イテレータの比較
+            return (current == itr.getRecord()) && (refList == itr.getList());
+        }
+
+        bool operator !=(ConstIterator itr) const {
+            return current != (itr.getRecord());
+        }
+    };
+
+    class Iterator : public ConstIterator { //イテレータクラス
+
+    public:
+        Iterator() {
+            refList = NULL;
+            current = NULL;
+        }
+
+        Iterator(DoublyLinkedList* list, Record* record) {
+            refList = list;
+            current = record;
+        }
+
+        Iterator(ConstIterator citr) {
+            refList = citr.getList();
+
+        }
+
+        Score& operator *() const { //参照要素(レコードの成績構造体)の取得 (非const)
+            return current->score;
         }
     };
 
@@ -104,6 +117,7 @@ public:
     
     // リストの末尾に新たなレコード(ノード)を挿入する
     int insert(const std::string& score, const std::string& userName) {
+
         Record* record;
         record = new Record;
         record->score.score = atoi(score.c_str());
@@ -121,10 +135,10 @@ public:
     }
 
     //イテレータで指定した位置にレコードを挿入する
-    int insert(Iterator i, const std::string& score, const std::string& userName) {
+    int insert(ConstIterator i, const std::string& score, const std::string& userName) {
         
         //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-        if (*i == NULL || i.getList() != this) {
+        if (i.getRecord() == NULL || i.getList() != this) {
             return -1;
         }
         
@@ -134,11 +148,11 @@ public:
         record->score.userName = userName;
 
         //元あったレコードを一つ後ろにずらして挿入
-        record->prev = (*i)->prev;
-        record->next = (*i);
+        record->prev = i.getRecord()->prev;
+        record->next = i.getRecord();
 
-        (*i)->prev->next = record;
-        (*i)->prev = record;
+        i.getRecord()->prev->next = record;
+        i.getRecord()->prev = record;
 
         size++;
 
@@ -147,11 +161,9 @@ public:
 
     //テスト用insert関数 (イテレータ,個数)
     int insert(Iterator itr, int n) {
-        std::string score = "0";
-        std::string userName = "test";
 
         for (int i = 0; i < n; i++) {
-            insert(itr, score, userName);
+            insert(itr, "0", "test");
         }
         return 0;
     }
@@ -167,28 +179,28 @@ public:
         return 0;
     }
 
-    int deleteRecord(Iterator i) { //データの削除
+    int remove(ConstIterator i) { //データの削除
 
         //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-        if (*i == NULL || i.getList() != this) {
+        if (i.getRecord() == NULL || i.getList() != this) {
             return -1;
         }
 
         //削除を指定されたレコードが番兵である場合、削除しない
-        if (*i == sentinel) {
+        if (i.getRecord() == sentinel) {
             return 0;
         }
 
-        (*i)->prev->next = (*i)->next;
-        (*i)->next->prev = (*i)->prev;
-        delete *i;
+        i.getRecord()->prev->next = i.getRecord()->next;
+        i.getRecord()->next->prev = i.getRecord()->prev;
+        delete i.getRecord();
 
         size--;
 
         return 0;
     }
 
-    int deleteRecord(Record* record) { //データの削除
+    int remove(Record* record) { //データの削除
 
         //イテレータのポインタが空の際の処理
         if (record == NULL) {
@@ -207,6 +219,13 @@ public:
         size--;
 
         return 0;
+    }
+
+    ConstIterator getSentinel() { //番兵のイテレータの取得
+        Record* record;
+        record = sentinel;
+        Iterator itr(this, record);
+        return itr;
     }
 
     Iterator getHead() { //先頭イテレータの取得
@@ -235,17 +254,6 @@ public:
         return itr;
     }
 
-    int print_list() { //リストの要素を先頭から順に全て標準出力する
-
-        ConstIterator itr = getHeadConst();
-
-        while (*itr != sentinel) {
-            printf("%d %s\n", (*itr)->score.score, (*itr)->score.userName.c_str());
-            ++itr;
-        }
-        return 0;
-    }
-
     ~DoublyLinkedList() { //デストラクタ
 
         Record* record;
@@ -255,7 +263,7 @@ public:
         next = record->next;
 
         while (record != sentinel) {
-            deleteRecord(record);
+            remove(record);
             record = next;
             next = next->next;
         }
@@ -263,3 +271,14 @@ public:
     }
 
 };
+
+int print_list(DoublyLinkedList & list) { //リストの要素を先頭から順に全て標準出力する
+
+    DoublyLinkedList::ConstIterator itr = list.getHeadConst();
+
+    while (itr != list.getSentinel()) {
+        printf("%d %s\n", (*itr).score, (*itr).userName.c_str());
+        ++itr;
+    }
+    return 0;
+}
