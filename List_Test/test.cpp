@@ -40,7 +40,7 @@ namespace ListTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it = list.getEnd();
 
-		EXPECT_EQ(0, list.insert(it, 1));
+		ASSERT_EQ(0, list.insert(it, 1));
 		EXPECT_EQ(1, list.getSize());
 	}
 
@@ -61,7 +61,7 @@ namespace ListTest {
 	{
 		DoublyLinkedList list;
 
-		EXPECT_EQ(0, list.insert(1));
+		ASSERT_EQ(0, list.insert(1));
 		EXPECT_EQ(1, list.getSize());
 	}
 
@@ -85,7 +85,7 @@ namespace ListTest {
 
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		EXPECT_EQ(0, list.remove(it));
+		ASSERT_EQ(0, list.remove(it));
 		EXPECT_EQ(0, list.getSize());
 	}
 
@@ -359,7 +359,7 @@ namespace ListTest {
 	//  想定する戻り値: Iterator 先頭要素を指すイテレータが返る
 	TEST(GetHeadDataTest, TestGetHeadDataAfterPush) {
 		DoublyLinkedList list;
-		EXPECT_EQ(0, list.insert("0", "user"));
+		ASSERT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::Iterator it;
 		it = list.getHead();
@@ -377,7 +377,7 @@ namespace ListTest {
 
 		DoublyLinkedList::Iterator it;
 		it = list.getEnd();
-		EXPECT_EQ(0, list.remove(it));
+		ASSERT_EQ(0, list.remove(it));
 
 		it = list.getHead();
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
@@ -430,7 +430,7 @@ namespace ListTest {
 	//  想定する戻り値: ConstIterator 先頭要素を指すイテレータが返る
 	TEST(GetHeadDataConstTest, TestGetHeadDataConstAfterPush) {
 		DoublyLinkedList list;
-		EXPECT_EQ(0, list.insert("0", "user"));
+		ASSERT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getHeadConst();
@@ -447,7 +447,7 @@ namespace ListTest {
 
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getEndConst();
-		EXPECT_EQ(0, list.remove(cit));
+		ASSERT_EQ(0, list.remove(cit));
 
 		cit = list.getHeadConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));
@@ -500,7 +500,7 @@ namespace ListTest {
 	//  想定する戻り値: Iterator 末尾要素を指すイテレータが返る
 	TEST(GetTailDataTest, TestGetTailDataAfterPush) {
 		DoublyLinkedList list;
-		EXPECT_EQ(0, list.insert("0", "user"));
+		ASSERT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::Iterator it;
 		it = list.getTail();
@@ -517,7 +517,7 @@ namespace ListTest {
 
 		DoublyLinkedList::Iterator it;
 		it = list.getTail();
-		EXPECT_EQ(0, list.remove(it));
+		ASSERT_EQ(0, list.remove(it));
 
 		it = list.getTail();
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
@@ -569,7 +569,7 @@ namespace ListTest {
 	//  想定する戻り値: ConstIterator 末尾要素を指すイテレータが返る
 	TEST(GetTailDataConstTest, TestGetTailDataConstAfterPush) {
 		DoublyLinkedList list;
-		EXPECT_EQ(0, list.insert("0", "user"));
+		ASSERT_EQ(0, list.insert("0", "user"));
 
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getTailConst();
@@ -586,7 +586,7 @@ namespace ListTest {
 
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getTailConst();
-		EXPECT_EQ(0, list.remove(cit));
+		ASSERT_EQ(0, list.remove(cit));
 
 		cit = list.getTailConst();
 		EXPECT_TRUE(((*cit).score == 0) && ((*cit).userName == "user"));

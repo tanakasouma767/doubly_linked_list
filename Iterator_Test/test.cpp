@@ -16,8 +16,7 @@ namespace IteratorTest {
 	TEST(GetIteratorTest, TestGetIteratorWhenNoListRef) {
 		DoublyLinkedList::Iterator it;
 		
-		// assert()
-		//EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
+		EXPECT_DEATH(*it, "Assertion failed.*");
 	}
 
 	//  ID: 1
@@ -29,7 +28,7 @@ namespace IteratorTest {
 
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		EXPECT_FALSE(((*it).score == 0) && ((*it).userName == "user"));
+		ASSERT_FALSE(((*it).score == 0) && ((*it).userName == "user"));
 
 		(*it).score = 0;
 		(*it).userName = "user";
@@ -51,8 +50,7 @@ namespace IteratorTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		// assert
-		//EXPECT_FALSE(((*it).score == 0) && ((*it).userName == "user"));
+		EXPECT_DEATH(*it, "Assertion failed.*");
 	}
 
 	//  ID: 4
@@ -62,8 +60,7 @@ namespace IteratorTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it = list.getEnd();
 
-		// assert
-		//EXPECT_FALSE(((*it).score == 0) && ((*it).userName == "user"));
+		EXPECT_DEATH(*it, "Assertion failed.*");
 	}
 
 	//================================ イテレータをリストの末尾に向かって一つ進める ================
@@ -74,8 +71,7 @@ namespace IteratorTest {
 	TEST(IncrementIteratorTest, TestIncrementIteratorWhenNoListRef) {
 		DoublyLinkedList::Iterator it;
 
-		// assert
-		//++it;
+		EXPECT_DEATH(++it, "Assertion failed.*");
 	}
 
 	//  ID: 6
@@ -85,8 +81,7 @@ namespace IteratorTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		// assert
-		//++it;
+		EXPECT_DEATH(++it, "Assertion failed.*");
 	}
 
 	//  ID: 7
@@ -97,8 +92,7 @@ namespace IteratorTest {
 		list.insert(1);
 		DoublyLinkedList::Iterator it = list.getEnd();
 
-		// assert
-		//++it;
+		EXPECT_DEATH(++it, "Assertion failed.*");
 	}
 
 	//  ID: 8
@@ -110,7 +104,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getHead();
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
 
 		++it;
 		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
@@ -125,7 +119,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getHead();
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
 
 		++it;
 		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
@@ -140,7 +134,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getHead();
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
 
 		it++;
 		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
@@ -155,8 +149,7 @@ namespace IteratorTest {
 	TEST(DecrementIteratorTest, TestDecrementIteratorWhenNoListRef) {
 		DoublyLinkedList::Iterator it;
 
-		// assert
-		//--it;
+		EXPECT_DEATH(--it, "Assertion failed.*");
 	}
 
 	//  ID: 12
@@ -166,8 +159,7 @@ namespace IteratorTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it = list.getEnd();
 
-		// assert
-		//--it;
+		EXPECT_DEATH(--it, "Assertion failed.*");
 	}
 
 
@@ -179,8 +171,7 @@ namespace IteratorTest {
 		list.insert(1);
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		// assert
-		//--it;
+		EXPECT_DEATH(--it, "Assertion failed.*");
 	}
 
 	//  ID: 14
@@ -192,7 +183,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getTail();
-		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
 
 		--it;
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
@@ -207,7 +198,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getTail();
-		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
 
 		--it;
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
@@ -222,7 +213,7 @@ namespace IteratorTest {
 		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getTail();
-		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
 
 		it--;
 		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
@@ -272,7 +263,7 @@ namespace IteratorTest {
 
 		DoublyLinkedList::Iterator it0 = list.getHead();
 		DoublyLinkedList::Iterator it1 = list.getTail();
-		EXPECT_NE(it0, it1);
+		ASSERT_NE(it0, it1);
 
 		it1 = it0;
 		EXPECT_EQ(it0, it1);
