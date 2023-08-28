@@ -82,6 +82,7 @@ namespace ListTest {
 	{
 		DoublyLinkedList list;
 		list.insert(1);
+		ASSERT_EQ(1, list.getSize());
 
 		DoublyLinkedList::Iterator it = list.getHead();
 
@@ -105,7 +106,7 @@ namespace ListTest {
 	TEST(GetDataNumTest, TestGetDataNumAfterDeleteWhenEmpty)
 	{
 		DoublyLinkedList list;
-		DoublyLinkedList::Iterator it = list.getEnd();
+		DoublyLinkedList::Iterator it = list.getHead();
 		list.remove(it);
 
 		EXPECT_EQ(0, list.getSize());
@@ -142,10 +143,15 @@ namespace ListTest {
 
 		DoublyLinkedList list;
 
-		list.insert(2);
+		list.insert("0","user0");
+		list.insert("1", "user1");
 
 		DoublyLinkedList::Iterator it = list.getHead();
-		EXPECT_EQ(0, list.insert(it, "0", "user"));
+		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+
+		EXPECT_EQ(0, list.insert(it, "2", "user2"));
+		it = list.getHead();
+		EXPECT_TRUE(((*it).score == 2) && ((*it).userName == "user2"));
 	}
 
 	//  ID: 11
@@ -246,14 +252,16 @@ namespace ListTest {
 
 	//  ID: 18
 	//  テスト項目: リストに複数の要素がある場合に、末尾イテレータを渡して、削除した際の挙動
-	//  想定する戻り値: 0(正常終了)
+	//  想定する戻り値: 0(正常終了) (末尾は番兵なので何も起こらない)
 	TEST(DeleteDataTest, TestDeleteDataEnd) {
 		DoublyLinkedList list;
 
 		list.insert(2);
+		ASSERT_EQ(2, list.getSize());
 
 		DoublyLinkedList::Iterator it = list.getEnd();
 		EXPECT_EQ(0, list.remove(it));
+		EXPECT_EQ(2, list.getSize());
 	}
 
 	//  ID: 19
@@ -463,10 +471,10 @@ namespace ListTest {
 	//  ID: 35
 	//  テスト項目: リストが空である場合に、呼び出した際の挙動
 	//  想定する戻り値: Iterator ダミーノードを指すイテレータが返る
-	TEST(GetEndDataTest, TestGetEndDataWhenEmpty) {
+	TEST(GetTailDataTest, TestGeTailDataWhenEmpty) {
 		DoublyLinkedList list;
 		DoublyLinkedList::Iterator it;
-		it = list.getEnd();
+		it = list.getTail();
 		EXPECT_TRUE(it == list.getEnd());
 	}
 
@@ -536,7 +544,7 @@ namespace ListTest {
 		DoublyLinkedList list;
 		DoublyLinkedList::ConstIterator cit;
 		cit = list.getTailConst();
-		EXPECT_TRUE(cit == list.getTailConst());
+		EXPECT_TRUE(cit == list.getEndConst());
 	}
 
 	//  ID: 42

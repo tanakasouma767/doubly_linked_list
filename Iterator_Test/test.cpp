@@ -28,12 +28,12 @@ namespace IteratorTest {
 
 		DoublyLinkedList::Iterator it = list.getHead();
 
-		ASSERT_FALSE(((*it).score == 0) && ((*it).userName == "user"));
+		ASSERT_FALSE(((*it).score == 100) && ((*it).userName == "user"));
 
-		(*it).score = 0;
+		(*it).score = 100;
 		(*it).userName = "user";
 
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user"));
+		EXPECT_TRUE(((*it).score == 100) && ((*it).userName == "user"));
 	}
 
 	//  ID: 2
@@ -229,11 +229,11 @@ namespace IteratorTest {
 	//  ID: 18
 	//  テスト項目: コピーコンストラクト後の値がコピー元と等しいことをチェック
 	//  想定する戻り値: 
-	TEST(CopyIteratorTest, TestIteratorCopyConstructorTest) {
+	TEST(CopyIteratorTest, TestIteratorCopyConstructor) {
 		DoublyLinkedList list;
 		list.insert("0", "user");
 
-		DoublyLinkedList::ConstIterator it0 = list.getTail();
+		DoublyLinkedList::ConstIterator it0 = list.getTailConst();
 		DoublyLinkedList::ConstIterator it1 = DoublyLinkedList::ConstIterator(it0);
 
 		EXPECT_TRUE(it0 == it1);
