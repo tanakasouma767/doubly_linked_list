@@ -267,6 +267,14 @@ namespace IteratorTest {
 
 		it1 = it0;
 		EXPECT_EQ(it0, it1);
+
+
+		DoublyLinkedList list2;
+		list2.insert("0", "user0");
+		list2.insert("1", "user1");
+		DoublyLinkedList::Iterator it2 = list2.getHead();
+
+		it2 = it1;
 	}
 
 
