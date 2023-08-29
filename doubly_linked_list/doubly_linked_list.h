@@ -121,7 +121,7 @@ public:
             assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
             return current->score;
         }
-
+        
         Iterator& operator --() { //参照要素を先頭方向へ移動
             assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
 
@@ -151,6 +151,7 @@ public:
             ++* this;
             return temp;
         }
+        
     };
 
     const int getSize() const { //データ数の取得
