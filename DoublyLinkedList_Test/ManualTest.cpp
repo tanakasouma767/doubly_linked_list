@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "doubly_linked_list.h"
-#include "List_ManualTest.h"
+#include "ManualTest.h"
 
 //======================//
 //       ƒŠƒXƒg         //
@@ -151,5 +151,5 @@ namespace IteratorTest {
 #endif
 		SUCCEED();
 	}
-
+	
 }

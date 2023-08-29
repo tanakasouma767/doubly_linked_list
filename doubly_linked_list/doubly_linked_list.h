@@ -28,7 +28,7 @@ public:
         size = 0;
     }
 
-    bool isSentinel(const Record* record) const {
+    const bool isSentinel(const Record* record) const {
         return sentinel == record;
     }
 
@@ -120,6 +120,36 @@ public:
         Score& operator *() const { //参照要素(レコードの成績構造体)の取得 (非const)
             assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
             return current->score;
+        }
+
+        Iterator& operator --() { //参照要素を先頭方向へ移動
+            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+
+            current = current->prev;
+            return *this;
+        }
+
+        Iterator operator --(int) { //参照要素を先頭方向へ移動
+            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+
+            Iterator temp = *this;
+            --* this;
+            return temp;
+        }
+
+        Iterator& operator ++() { //参照要素を末尾方向へ移動
+            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+
+            current = current->next;
+            return *this;
+        }
+
+        Iterator operator ++(int) { //参照要素を末尾方向へ移動
+            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+
+            Iterator temp = *this;
+            ++* this;
+            return temp;
         }
     };
 
@@ -246,13 +276,3 @@ public:
     }
 
 };
-
-int print_list(DoublyLinkedList & list) { //リストの要素を先頭から順に全て標準出力する
-
-    DoublyLinkedList::Iterator it;
-
-    for (it = list.getHead();  it != list.getEnd(); ++it) {
-        printf("%d %s\n", (*it).score, (*it).userName.c_str());
-    }
-    return 0;
-}

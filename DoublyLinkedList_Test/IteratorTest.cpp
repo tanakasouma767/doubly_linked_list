@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "doubly_linked_list.h"
 
+
 namespace IteratorTest {
 
 //======================//
@@ -39,9 +40,7 @@ namespace IteratorTest {
 	//  ID: 2
 	//  テスト項目: ConstIteratorから取得した要素に対して、値の代入が行えないかをチェック
 	//  想定する戻り値: コンパイルエラー 自動テスト化しなくてよい
-	TEST(GetIteratorTest, TestGetConstIteratorAndPushValue) {
 
-	}
 
 	//  ID: 3
 	//  テスト項目: リストが空の際の、先頭イテレータに対して呼び出した際の挙動
@@ -118,11 +117,13 @@ namespace IteratorTest {
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
-		DoublyLinkedList::Iterator it = list.getHead();
-		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		DoublyLinkedList::Iterator it0 = list.getHead();
+		DoublyLinkedList::Iterator it1;
+		ASSERT_TRUE(((*it0).score == 0) && ((*it0).userName == "user0"));
 
-		++it;
-		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		it1 = ++it0;
+		EXPECT_TRUE(((*it1).score == 1) && ((*it1).userName == "user1"));
+		EXPECT_TRUE(((*it0).score == 1) && ((*it0).userName == "user1"));
 	}
 
 	//  ID: 10
@@ -133,11 +134,13 @@ namespace IteratorTest {
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
-		DoublyLinkedList::Iterator it = list.getHead();
-		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		DoublyLinkedList::Iterator it0 = list.getHead();
+		DoublyLinkedList::Iterator it1;
+		ASSERT_TRUE(((*it0).score == 0) && ((*it0).userName == "user0"));
 
-		it++;
-		EXPECT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		it1 = it0++;
+		EXPECT_TRUE(((*it1).score == 0) && ((*it1).userName == "user0"));
+		EXPECT_TRUE(((*it0).score == 1) && ((*it0).userName == "user1"));
 	}
 
 
@@ -197,11 +200,13 @@ namespace IteratorTest {
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
-		DoublyLinkedList::Iterator it = list.getTail();
-		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		DoublyLinkedList::Iterator it0 = list.getTail();
+		DoublyLinkedList::Iterator it1;
+		ASSERT_TRUE(((*it0).score == 1) && ((*it0).userName == "user1"));
 
-		--it;
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		it1 = --it0;
+		EXPECT_TRUE(((*it1).score == 0) && ((*it1).userName == "user0"));
+		EXPECT_TRUE(((*it0).score == 0) && ((*it0).userName == "user0"));
 	}
 
 	//  ID: 16
@@ -212,11 +217,13 @@ namespace IteratorTest {
 		list.insert("0", "user0");
 		list.insert("1", "user1");
 
-		DoublyLinkedList::Iterator it = list.getTail();
-		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
+		DoublyLinkedList::Iterator it0 = list.getTail();
+		DoublyLinkedList::Iterator it1;
+		ASSERT_TRUE(((*it0).score == 1) && ((*it0).userName == "user1"));
 
-		it--;
-		EXPECT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
+		it1 = it0--;
+		EXPECT_TRUE(((*it1).score == 1) && ((*it1).userName == "user1"));
+		EXPECT_TRUE(((*it0).score == 0) && ((*it0).userName == "user0"));
 	}
 
 
@@ -249,9 +256,7 @@ namespace IteratorTest {
 	//  ID: 19
 	//  テスト項目: IteratorにConstIteratorを代入できない事をチェック
 	//  想定する戻り値: コンパイルエラー 自動テスト化しなくてよい
-	TEST(AssignIteratorTest, TestAssignConstIteratorToIterator) {
 
-	}
 
 	//  ID: 20
 	//  テスト項目: 代入後の値がコピー元と等しいことをチェック

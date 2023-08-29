@@ -2,6 +2,16 @@
 #include <string> 
 #include "doubly_linked_list.h"
 
+int print_list(DoublyLinkedList& list) { //リストの要素を先頭から順に全て標準出力する
+
+    DoublyLinkedList::Iterator it;
+
+    for (it = list.getHead(); it != list.getEnd(); ++it) {
+        printf("%d %s\n", (*it).score, (*it).userName.c_str());
+    }
+    return 0;
+}
+
 int main()
 {
     DoublyLinkedList l;
@@ -36,6 +46,6 @@ int main()
     }
 
     print_list(l);
-    
+
     return 0;
 }
