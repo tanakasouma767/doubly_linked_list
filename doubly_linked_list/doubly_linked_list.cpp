@@ -1,21 +1,25 @@
 ﻿#include <fstream>
 #include <string> 
-#include "doubly_linked_list.h"
+#include "doubly_linked_list.inl"
+#include <iostream>
 
-int print_list(DoublyLinkedList& list) { //リストの要素を先頭から順に全て標準出力する
 
-    DoublyLinkedList::Iterator it;
+int print_list_score(DoublyLinkedList<Score>& list) { //リストの要素を先頭から順に全て標準出力する
 
-    for (it = list.getHead(); it != list.getEnd(); ++it) {
+    DoublyLinkedList<Score>::Iterator it;
+
+    for (it = list.begin(); it != list.end(); ++it) {
         printf("%d %s\n", (*it).score, (*it).userName.c_str());
     }
     return 0;
 }
 
+
 int main()
 {
-    DoublyLinkedList l;
     
+    DoublyLinkedList<Score> scoreList;
+
     //テキストファイルのファイル名
     //Scores.txtはプロジェクトフォルダ内に同封している
     const char* fileName = "Scores.txt";
@@ -42,10 +46,34 @@ int main()
             break;
         }
 
-        l.insert(score, userName);
+        scoreList.insert(score, userName);
     }
 
-    print_list(l);
+    print_list_score(scoreList);
+    
+
+    /*
+    // int型リストの動作確認
+    DoublyLinkedList<int> intList;
+    for (int i = 0; i < 10; i++) {
+        intList.insert(i);
+    }
+    DoublyLinkedList<int>::Iterator iit;
+    for (iit = intList.begin(); iit != intList.end(); ++iit) {
+        printf("%d\n", (*iit));
+    }
+
+    
+    // string型リストの動作確認
+    DoublyLinkedList <std::string> stringList;
+    DoublyLinkedList<std::string>::Iterator sit;
+    for (int i = 0; i < 10; i++) {
+        stringList.insert("hello");
+    }
+    for (sit = stringList.begin(); sit != stringList.end(); ++sit) {
+        std::cout << *sit << std::endl;
+    }
+    */
 
     return 0;
 }

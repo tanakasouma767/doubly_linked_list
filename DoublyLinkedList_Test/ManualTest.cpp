@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "doubly_linked_list.h"
+#include "doubly_linked_list.inl"
 #include "ManualTest.h"
 
 //======================//
@@ -15,7 +15,7 @@ namespace ListTest {
 	TEST(GetDataNumTest, TestGetDataNumIsConst)
 	{
 #if defined TEST_GET_DATA_NUM_IS_CONST
-		const DoublyLinkedList list;
+		const DoublyLinkedList<Score> list;
 		EXPECT_EQ(0, list.getSize());
 #endif
 		SUCCEED();
@@ -27,7 +27,7 @@ namespace ListTest {
 	//  意図する結果: コンパイルエラー
 	TEST(InsertDataTest, TestInsertDataIsNotConst) {
 #if defined TEST_IMSERT_DATA_IS_NOT_CONST
-		const DoublyLinkedList list;
+		const DoublyLinkedList<Score> list;
 		list.insert("0", "user"); //コンパイルエラー
 #endif
 		SUCCEED();
@@ -39,8 +39,9 @@ namespace ListTest {
 	//  意図する結果: コンパイルエラー
 	TEST(DeleteDataTest, TestDeleteDataIsNotConst) {
 #if defined TEST_DELETE_DATA_IS_NOT_CONST
-		const DoublyLinkedList list;
-		list.remove(); //コンパイルエラー
+		const DoublyLinkedList<Score> list;
+		DoublyLinkedList<Score>::ConstIterator cit = list.beginConst();
+		list.remove(it); //コンパイルエラー
 #endif
 		SUCCEED();
 	}
@@ -51,9 +52,9 @@ namespace ListTest {
 	//  意図する結果: コンパイルエラー
 	TEST(GetHeadDataTest, TestGetHeadDataFromConstList) {
 #if defined TEST_GET_HEAD_DATA_FROM_CONST_LIST
-		const DoublyLinkedList list;
-		DoublyLinkedList::Iterator it;
-		it = list.getHead(); //コンパイルエラー
+		const DoublyLinkedList<Score> list;
+		DoublyLinkedList<Score>::Iterator it;
+		it = list.begin(); //コンパイルエラー
 #endif
 		SUCCEED();
 	}
@@ -64,9 +65,9 @@ namespace ListTest {
 	//  意図する結果: コンパイル成功
 	TEST(GetHeadDataConstTest, TestGetHeadDataConstIsConst) {
 #if defined TEST_GET_HEAD_DATA_CONST_IS_CONST
-		const DoublyLinkedList list;
-		DoublyLinkedList::ConstIterator cit;
-		cit = list.getHeadConst(); //コンパイル成功
+		const DoublyLinkedList<Score> list;
+		DoublyLinkedList<Score>::ConstIterator cit;
+		cit = list.beginConst(); //コンパイル成功
 #endif
 		SUCCEED();
 	}
@@ -77,8 +78,8 @@ namespace ListTest {
 	//  意図する結果: コンパイルエラー
 	TEST(GetTailDataTest, TestGetTailDataFromConstList) {
 #if defined TEST_GET_TAIL_DATA_FROM_CONST_LIST
-		const DoublyLinkedList list;
-		DoublyLinkedList::Iterator it;
+		const DoublyLinkedList<Score> list;
+		DoublyLinkedList<Score>::Iterator it;
 		it = list.getTail(); //コンパイルエラー
 #endif
 		SUCCEED();
@@ -90,8 +91,8 @@ namespace ListTest {
 	//  意図する結果: コンパイル成功
 	TEST(GetTailDataConstTest, TestGetTailDataConstIsConst) {
 #if defined TEST_GET_TAIL_DATA_CONST_IS_CONST
-		const DoublyLinkedList list;
-		DoublyLinkedList::ConstIterator cit;
+		const DoublyLinkedList<Score> list;
+		DoublyLinkedList<Score>::ConstIterator cit;
 		cit = list.getTailConst(); //コンパイル成功
 #endif
 		SUCCEED();
@@ -110,11 +111,11 @@ namespace IteratorTest {
 	//  意図する結果: コンパイルエラー
 	TEST(GetIteratorTest, TestGetConstIteratorAndPushValue) {
 #if defined TEST_GET_CONST_ITERATOR_AND_PUSH_VALUE
-		DoublyLinkedList list;
+		DoublyLinkedList<Score> list;
 		list.insert("0", "user");
 
-		DoublyLinkedList::ConstIterator cit;
-		cit = list.getHeadConst();
+		DoublyLinkedList<Score>::ConstIterator cit;
+		cit = list.beginConst();
 		(*cit).score = 100; //コンパイルエラー
 #endif
 		SUCCEED();
@@ -126,11 +127,11 @@ namespace IteratorTest {
 	//  意図する結果: コンパイルエラー
 	TEST(CopyIteratorTest, TestConstIteratorConstructorFromIterator) {
 #if defined Test_Const_Iterator_Constructor_From_Iterator
-		DoublyLinkedList list;
+		DoublyLinkedList<Score> list;
 		list.insert("0", "user");
 
-		DoublyLinkedList::ConstIterator it0 = list.getTailConst();
-		DoublyLinkedList::Iterator it1 = DoublyLinkedList::Iterator(it0); //コンパイルエラー
+		DoublyLinkedList<Score>::ConstIterator it0 = list.getTailConst();
+		DoublyLinkedList<Score>::Iterator it1 = DoublyLinkedList<Score>::Iterator(it0); //コンパイルエラー
 #endif
 		SUCCEED();
 	}
@@ -141,11 +142,11 @@ namespace IteratorTest {
 	//  意図する結果: コンパイルエラー
 	TEST(AssignIteratorTest, TestAssignConstIteratorToIterator) {
 #if defined TEST_ASSIGN_CONST_ITERATOR_TO_ITERATOR
-		DoublyLinkedList list;
+		DoublyLinkedList<Score> list;
 		list.insert("0", "user");
 
-		DoublyLinkedList::ConstIterator it0 = list.getTailConst();
-		DoublyLinkedList::Iterator it1;
+		DoublyLinkedList<Score>::ConstIterator it0 = list.getTailConst();
+		DoublyLinkedList<Score>::Iterator it1;
 
 		it1 = it0; //コンパイルエラー
 #endif

@@ -7,11 +7,12 @@ struct Score { //成績データ
     std::string userName; //ユーザー名
 };
 
+template<typename T>
 class DoublyLinkedList { //双方向リスト
 
     struct Record { //リストのレコード(ノード)
 
-        Score score; //成績データ
+        T data; //データ
         Record* prev; //前のノード
         Record* next; //次のノード
     };
@@ -21,259 +22,118 @@ class DoublyLinkedList { //双方向リスト
     int size;
 
 public:
-    DoublyLinkedList() { //コンストラクタ
-        sentinel = new Record;
-        sentinel->prev = sentinel;
-        sentinel->next = sentinel;
-        size = 0;
-    }
+    //コンストラクタ
+    DoublyLinkedList();
 
-    const bool isSentinel(const Record* record) const {
-        return sentinel == record;
-    }
+    //渡されたレコードがリストの番兵であるかを判定する
+    const bool isSentinel(const Record* record) const;
+
 
     class ConstIterator { //constイテレータクラス
     protected:
-        const DoublyLinkedList* refList;
+        const DoublyLinkedList<T>* refList;
         Record* current;
 
     public:
         friend DoublyLinkedList;
         
-        ConstIterator() {
-            refList = NULL;
-            current = NULL;
-        }
+        //コンストラクタ
+        ConstIterator();
 
-        ConstIterator(const DoublyLinkedList* list, Record* record) {
-            refList = list;
-            current = record;
-        }
-
+        ConstIterator(const DoublyLinkedList* list, Record* record);
         
-        ConstIterator(const ConstIterator& itr) {
-            current = itr.current;
-            refList = itr.refList;
-        }
+        //コピーコンストラクタ
+        ConstIterator(const ConstIterator& itr);
         
+        //参照要素を先頭方向へ移動 前置デクリメント
+        ConstIterator& operator --();
 
-        ConstIterator& operator --() { //参照要素を先頭方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+        //参照要素を先頭方向へ移動 後置デクリメント
+        ConstIterator operator --(int);
 
-            current = current->prev;
-            return *this;
-        }
-
-        ConstIterator operator --(int) { //参照要素を先頭方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
-
-            ConstIterator temp = *this;
-            --*this;
-            return temp;
-        }
-
-        ConstIterator& operator ++() { //参照要素を末尾方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
-
-            current = current->next;
-            return *this;
-        }
+        //参照要素を末尾方向へ移動 前置インクリメント
+        ConstIterator& operator ++();
         
-        ConstIterator operator ++(int) { //参照要素を末尾方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+        //参照要素を末尾方向へ移動 後置インクリメント
+        ConstIterator operator ++(int);
 
-            ConstIterator temp = *this;
-            ++* this;
-            return temp;
-        }
+        //constで参照要素(data)を取得
+        const T& operator *() const;
 
-        const Score& operator *() const { //constで参照要素(レコードの成績構造体)を取得
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+        //イテレータの代入
+        ConstIterator& operator =(const ConstIterator& itr);
 
-            return current->score;
-        }
+        //イテレータの比較
+        bool operator ==(ConstIterator itr) const;
 
-        ConstIterator& operator =(const ConstIterator& itr) { //イテレータの代入
-
-            if (itr != *this) {
-                current = itr.current;
-                refList = itr.refList;
-            }
-
-            return *this;
-        }
-
-        bool operator ==(ConstIterator itr) const { //イテレータの比較
-            return (current == itr.current) && (refList == itr.refList);
-        }
-
-        bool operator !=(ConstIterator itr) const {
-            return current != (itr.current);
-        }
+        bool operator !=(ConstIterator itr) const;
     };
+
 
     class Iterator : public ConstIterator { //イテレータクラス
 
     public:
         using ConstIterator::ConstIterator;
+        using ConstIterator::refList;
+        using ConstIterator::current;
 
-        Score& operator *() const { //参照要素(レコードの成績構造体)の取得 (非const)
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
-            return current->score;
-        }
+        //参照要素の取得 (非const)
+        T& operator *() const;
         
-        Iterator& operator --() { //参照要素を先頭方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+        //参照要素を先頭方向へ移動 前置デクリメント
+        Iterator& operator --();
 
-            current = current->prev;
-            return *this;
-        }
+        //参照要素を先頭方向へ移動 後置デクリメント
+        Iterator operator --(int);
 
-        Iterator operator --(int) { //参照要素を先頭方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+        //参照要素を末尾方向へ移動 前置インクリメント
+        Iterator& operator ++();
 
-            Iterator temp = *this;
-            --* this;
-            return temp;
-        }
-
-        Iterator& operator ++() { //参照要素を末尾方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
-
-            current = current->next;
-            return *this;
-        }
-
-        Iterator operator ++(int) { //参照要素を末尾方向へ移動
-            assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
-
-            Iterator temp = *this;
-            ++* this;
-            return temp;
-        }
+        //参照要素を末尾方向へ移動 後置インクリメント
+        Iterator operator ++(int);
         
     };
 
-    const int getSize() const { //データ数の取得
-        return size;
-    }
+
+    //データ数の取得
+    const int getSize() const;
 
     //イテレータで指定した位置にレコードを挿入する
-    int insert(const ConstIterator& i, const std::string& score, const std::string& userName) {
-        
-        //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-        if (i.current == NULL || i.refList != this) {
-            return -1;
-        }
-        
-        Record* record;
-        record = new Record;
-        record->score.score = atoi(score.c_str());
-        record->score.userName = userName;
+    int insert(const ConstIterator& i, const T& data);
 
-        //元あったレコードを一つ後ろにずらして挿入
-        record->prev = i.current->prev;
-        record->next = i.current;
+    //DoublyLinkedList<Score>専用
+    //イテレータで指定した位置にレコードを挿入する
+    int insert(const ConstIterator& i, const std::string& score, const std::string& userName);
 
-        i.current->prev->next = record;
-        i.current->prev = record;
+    //リストの末尾に新たなレコード(ノード)を挿入する
+    int insert(const T& data);
 
-        size++;
+    //DoublyLinkedList<Score>専用
+    //リストの末尾に新たなレコード(ノード)を挿入する
+    int insert(const std::string& score, const std::string& userName);
 
-        return 0;
-    }
+    //データの削除
+    int remove(ConstIterator i);
 
-    // リストの末尾に新たなレコード(ノード)を挿入する
-    int insert(const std::string& score, const std::string& userName) {
+    //先頭イテレータの取得
+    Iterator begin();
 
-        Iterator it = getEnd();
-        insert(it, score, userName);
+    //先頭イテレータの取得 const版
+    const ConstIterator beginConst() const;
 
-        return 0;
-    }
+    //最後の要素のイテレータの取得
+    Iterator getTail();
 
-    //テスト用insert関数 (イテレータ,個数)
-    int insert(const ConstIterator& itr, int n) {
+    //最後の要素のイテレータの取得 const版
+    const ConstIterator getTailConst() const;
 
-        for (int i = 0; i < n; i++) {
-            insert(itr, "-1", "test");
-        }
-        return 0;
-    }
+    //末尾イテレータの取得
+    Iterator end();
 
-    //テスト用insert関数 (個数)
-    int insert(int n) {
+    //末尾イテレータの取得 const版
+    const ConstIterator endConst() const;
 
-        for (int i = 0; i < n; i++) {
-            insert("-1", "test");
-        }
-        return 0;
-    }
-
-    int remove(ConstIterator i) { //データの削除
-
-        //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-        if (i.current == NULL || i.refList != this) {
-            return -1;
-        }
-
-        //削除を指定されたレコードが番兵である場合、削除しない
-        if (i.current == sentinel) {
-            return 0;
-        }
-
-        i.current->prev->next = i.current->next;
-        i.current->next->prev = i.current->prev;
-        delete i.current;
-
-        size--;
-
-        return 0;
-    }
-
-
-    Iterator getHead() { //先頭イテレータの取得
-        Iterator itr(this, sentinel->next);
-        return itr;
-    }
-
-    const ConstIterator getHeadConst() const { //先頭イテレータの取得 const版
-        ConstIterator itr(this, sentinel->next);
-        return itr;
-    }
-
-    Iterator getTail() { //最後の要素のイテレータの取得
-        Iterator itr = Iterator(this, sentinel->prev);
-        return itr;
-    }
-
-    const ConstIterator getTailConst() const { //最後の要素のイテレータの取得 const版
-        ConstIterator itr = ConstIterator(this, sentinel->prev);
-        return itr;
-    }
-
-    Iterator getEnd() { //末尾イテレータの取得
-        Iterator itr = Iterator(this, sentinel);
-        return itr;
-    }
-
-    const ConstIterator getEndConst() const { //末尾イテレータの取得 const版
-        ConstIterator itr(this, sentinel);
-        return itr;
-    }
-
-    ~DoublyLinkedList() { //デストラクタ
-
-        ConstIterator it = getHead();
-        ConstIterator next = getHead();
-
-        while (it != getEnd()) {
-            next++;
-            remove(it);
-            it = next;
-        }
-
-        delete sentinel; //残った番兵を削除
-    }
+    //デストラクタ
+    virtual ~DoublyLinkedList();
 
 };
