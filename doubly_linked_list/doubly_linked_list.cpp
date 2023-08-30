@@ -46,11 +46,11 @@ int main()
             break;
         }
 
-        scoreList.insert(score, userName);
+        scoreList.insert(Score(score, userName));
     }
 
     print_list_score(scoreList);
-    
+
 
     /*
     // int型リストの動作確認

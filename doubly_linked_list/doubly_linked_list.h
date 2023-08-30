@@ -5,7 +5,17 @@
 struct Score { //成績データ
     int score; //スコア
     std::string userName; //ユーザー名
-};
+
+    Score() {
+        score = -1;
+        userName = "";
+    }
+
+    Score(const std::string& score_arg, const std::string& userName_arg) {
+        score = atoi(score_arg.c_str());
+        userName = userName_arg;
+    }
+}; 
 
 template<typename T>
 class DoublyLinkedList { //双方向リスト
@@ -101,16 +111,8 @@ public:
     //イテレータで指定した位置にレコードを挿入する
     int insert(const ConstIterator& i, const T& data);
 
-    //DoublyLinkedList<Score>専用
-    //イテレータで指定した位置にレコードを挿入する
-    int insert(const ConstIterator& i, const std::string& score, const std::string& userName);
-
     //リストの末尾に新たなレコード(ノード)を挿入する
     int insert(const T& data);
-
-    //DoublyLinkedList<Score>専用
-    //リストの末尾に新たなレコード(ノード)を挿入する
-    int insert(const std::string& score, const std::string& userName);
 
     //データの削除
     int remove(ConstIterator i);
@@ -135,5 +137,4 @@ public:
 
     //デストラクタ
     virtual ~DoublyLinkedList();
-
 };

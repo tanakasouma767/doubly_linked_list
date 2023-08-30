@@ -25,7 +25,7 @@ namespace IteratorTest {
 	//  想定する戻り値: true
 	TEST(GetIteratorTest, TestGetIteratorAndPushValue) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 
 		DoublyLinkedList<Score>::Iterator it = list.begin();
 
@@ -88,7 +88,7 @@ namespace IteratorTest {
 	//  想定する戻り値: なし (Assert発生)
 	TEST(IncrementIteratorTest, TestIncrementEndIteratorWhenEmpty) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 		DoublyLinkedList<Score>::Iterator it = list.end();
 
 		EXPECT_DEATH(++it, "Assertion failed.*");
@@ -99,8 +99,8 @@ namespace IteratorTest {
 	//  想定する戻り値: (次の要素を指す)
 	TEST(IncrementIteratorTest, TestIncrementIteratorWhenMoreThanTwo) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it = list.begin();
 		ASSERT_TRUE(((*it).score == 0) && ((*it).userName == "user0"));
@@ -114,8 +114,8 @@ namespace IteratorTest {
 	//　想定する戻り値: (次の要素を指す)
 	TEST(IncrementIteratorTest, TestPreIncrementIterator) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1;
@@ -131,8 +131,8 @@ namespace IteratorTest {
 	//  想定する戻り値: (次の要素を指す)
 	TEST(IncrementIteratorTest, TestPostIncrementIterator) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1;
@@ -171,7 +171,7 @@ namespace IteratorTest {
 	//  想定する戻り値: なし (Assert発生)
 	TEST(DecrementIteratorTest, TestDecrementHeadIterator) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 		DoublyLinkedList<Score>::Iterator it = list.begin();
 
 		EXPECT_DEATH(--it, "Assertion failed.*");
@@ -182,8 +182,8 @@ namespace IteratorTest {
 	//  想定する戻り値: (前の要素を指す)
 	TEST(DecrementIteratorTest, TestDecrementIteratorWhenMoreThanTwo) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it = list.getTail();
 		ASSERT_TRUE(((*it).score == 1) && ((*it).userName == "user1"));
@@ -197,8 +197,8 @@ namespace IteratorTest {
 	//  想定する戻り値:  (前の要素を指す)
 	TEST(DecrementIteratorTest, TestPreDecrementIterator) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it0 = list.getTail();
 		DoublyLinkedList<Score>::Iterator it1;
@@ -214,8 +214,8 @@ namespace IteratorTest {
 	//  想定する戻り値:  (前の要素を指す)
 	TEST(DecrementIteratorTest, TestPostDecrementIterator) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it0 = list.getTail();
 		DoublyLinkedList<Score>::Iterator it1;
@@ -238,7 +238,7 @@ namespace IteratorTest {
 	//  想定する戻り値: 
 	TEST(CopyIteratorTest, TestIteratorCopyConstructor) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 
 		DoublyLinkedList<Score>::ConstIterator it0 = list.getTailConst();
 		DoublyLinkedList<Score>::ConstIterator it1 = DoublyLinkedList<Score>::ConstIterator(it0);
@@ -263,8 +263,8 @@ namespace IteratorTest {
 	//  想定する戻り値: 
 	TEST(AssignIteratorTest, TestAssignIteratorEqual) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1 = list.getTail();
@@ -275,8 +275,8 @@ namespace IteratorTest {
 
 
 		DoublyLinkedList<Score> list2;
-		list2.insert("0", "user0");
-		list2.insert("1", "user1");
+		list2.insert(Score("0", "user"));
+		list2.insert(Score("1", "user1"));
 		DoublyLinkedList<Score>::Iterator it2 = list2.begin();
 
 		it2 = it1;
@@ -300,8 +300,8 @@ namespace IteratorTest {
 	//  想定する戻り値: true
 	TEST(IteratorEqualityOperatorTest, TestIteratorEqualityOperatorWhenEqual) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1 = list.begin();
 		EXPECT_TRUE(it0 == it1);
@@ -312,8 +312,8 @@ namespace IteratorTest {
 	//  想定する戻り値: false
 	TEST(IteratorEqualityOperatorTest, TestIteratorEqualityOperatorWhenNotEqual) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1 = list.getTail();
 		EXPECT_FALSE(it0 == it1);
@@ -338,8 +338,8 @@ namespace IteratorTest {
 	//  想定する戻り値: false
 	TEST(IteratorNotEqualityOperatorTest, TestIteratorNotEqualityOperatorWhenEqual) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1 = list.begin();
 		EXPECT_FALSE(it0 != it1);
@@ -350,8 +350,8 @@ namespace IteratorTest {
 	//  想定する戻り値: true
 	TEST(IteratorNotEqualityOperatorTest, TestIteratorNotEqualityOperatorWhenNotEqual) {
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user0");
-		list.insert("1", "user1");
+		list.insert(Score("0", "user0"));
+		list.insert(Score("1", "user1"));
 		DoublyLinkedList<Score>::Iterator it0 = list.begin();
 		DoublyLinkedList<Score>::Iterator it1 = list.getTail();
 		EXPECT_TRUE(it0 != it1);

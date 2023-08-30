@@ -24,8 +24,8 @@ const bool DoublyLinkedList<T>::isSentinel(const Record* record) const {
 //コンストラクタ
 template<typename T>
 DoublyLinkedList<T>::ConstIterator::ConstIterator() {
-    refList = NULL;
-    current = NULL;
+    refList = nullptr;
+    current = nullptr;
 }
 
 template<typename T>
@@ -44,7 +44,7 @@ DoublyLinkedList<T>::ConstIterator::ConstIterator(const ConstIterator& itr) {
 //参照要素を先頭方向へ移動
 template<typename T>
 typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator::operator --() {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
 
     current = current->prev;
     return *this;
@@ -53,7 +53,7 @@ typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator:
 //参照要素を先頭方向へ移動 後置デクリメント
 template<typename T>
 typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::ConstIterator::operator --(int) {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
 
     ConstIterator temp = *this;
     --* this;
@@ -63,7 +63,7 @@ typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::ConstIterator::
 //参照要素を末尾方向へ移動 前置インクリメント
 template<typename T>
 typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator::operator ++() {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     current = current->next;
     return *this;
@@ -72,7 +72,7 @@ typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator:
 //参照要素を末尾方向へ移動 後置インクリメント
 template<typename T>
 typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::ConstIterator::operator ++(int) {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     ConstIterator temp = *this;
     ++* this;
@@ -82,7 +82,7 @@ typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::ConstIterator::
 //constで参照要素(data)を取得
 template<typename T>
 const T& DoublyLinkedList<T>::ConstIterator::operator *() const {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     return current->data;
 }
@@ -117,7 +117,7 @@ bool DoublyLinkedList<T>::ConstIterator::operator !=(ConstIterator itr) const {
 template<typename T>
 T& DoublyLinkedList<T>::Iterator::operator *() const {
 
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     return current->data;
 }
@@ -125,7 +125,7 @@ T& DoublyLinkedList<T>::Iterator::operator *() const {
 //参照要素を先頭方向へ移動 前置デクリメント
 template<typename T>
 typename DoublyLinkedList<T>::Iterator& DoublyLinkedList<T>::Iterator::operator --() {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
 
     ConstIterator::operator --();
     return *this;
@@ -134,7 +134,7 @@ typename DoublyLinkedList<T>::Iterator& DoublyLinkedList<T>::Iterator::operator 
 //参照要素を先頭方向へ移動 後置デクリメント
 template<typename T>
 typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::Iterator::operator --(int) {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current->prev)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
 
     Iterator temp = *this;
     --* this;
@@ -144,7 +144,7 @@ typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::Iterator::operator -
 //参照要素を末尾方向へ移動 前置インクリメント
 template<typename T>
 typename DoublyLinkedList<T>::Iterator& DoublyLinkedList<T>::Iterator::operator ++() {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     ConstIterator::operator ++();
     return *this;
@@ -153,7 +153,7 @@ typename DoublyLinkedList<T>::Iterator& DoublyLinkedList<T>::Iterator::operator 
 //参照要素を末尾方向へ移動 後置インクリメント
 template<typename T>
 typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::Iterator::operator ++(int) {
-    assert(current != NULL && refList != NULL && !(refList->isSentinel(current)));
+    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current)));
 
     Iterator temp = *this;
     ++* this;
@@ -174,7 +174,7 @@ template<typename T>
 int DoublyLinkedList<T>::insert(const ConstIterator& i, const T& data) {
 
     //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-    if (i.current == NULL || i.refList != this) {
+    if (i.current == nullptr || i.refList != this) {
         return -1;
     }
 
@@ -194,18 +194,6 @@ int DoublyLinkedList<T>::insert(const ConstIterator& i, const T& data) {
     return 0;
 }
 
-//イテレータで指定した位置にレコードを挿入する
-template<typename T>
-int DoublyLinkedList<T>::insert(const ConstIterator& i, const std::string& score, const std::string& userName) {
-
-    Score data;
-    data.score = atoi(score.c_str());
-    data.userName = userName;
-    int r = insert(i, data);
-
-    return r;
-}
-
 // リストの末尾に新たなレコード(ノード)を挿入する
 template<typename T>
 int DoublyLinkedList<T>::insert(const T& data) {
@@ -216,22 +204,12 @@ int DoublyLinkedList<T>::insert(const T& data) {
     return r;
 }
 
-// リストの末尾に新たなレコード(ノード)を挿入する
-template<typename T>
-int DoublyLinkedList<T>::insert(const std::string& score, const std::string& userName) {
-
-    Iterator it = end();
-    int r = insert(it, score, userName);
-
-    return r;
-}
-
 //データの削除
 template<typename T>
 int DoublyLinkedList<T>::remove(ConstIterator i) {
 
         //イテレータのポインタが空 or 参照先のリストが自身ではない際の処理
-    if (i.current == NULL || i.refList != this) {
+    if (i.current == nullptr || i.refList != this) {
         return -1;
     }
 

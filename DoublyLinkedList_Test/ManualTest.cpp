@@ -28,7 +28,7 @@ namespace ListTest {
 	TEST(InsertDataTest, TestInsertDataIsNotConst) {
 #if defined TEST_IMSERT_DATA_IS_NOT_CONST
 		const DoublyLinkedList<Score> list;
-		list.insert("0", "user"); //コンパイルエラー
+		list.insert(Score("0", "user")); //コンパイルエラー
 #endif
 		SUCCEED();
 	}
@@ -112,7 +112,7 @@ namespace IteratorTest {
 	TEST(GetIteratorTest, TestGetConstIteratorAndPushValue) {
 #if defined TEST_GET_CONST_ITERATOR_AND_PUSH_VALUE
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 
 		DoublyLinkedList<Score>::ConstIterator cit;
 		cit = list.beginConst();
@@ -128,7 +128,7 @@ namespace IteratorTest {
 	TEST(CopyIteratorTest, TestConstIteratorConstructorFromIterator) {
 #if defined Test_Const_Iterator_Constructor_From_Iterator
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 
 		DoublyLinkedList<Score>::ConstIterator it0 = list.getTailConst();
 		DoublyLinkedList<Score>::Iterator it1 = DoublyLinkedList<Score>::Iterator(it0); //コンパイルエラー
@@ -143,7 +143,7 @@ namespace IteratorTest {
 	TEST(AssignIteratorTest, TestAssignConstIteratorToIterator) {
 #if defined TEST_ASSIGN_CONST_ITERATOR_TO_ITERATOR
 		DoublyLinkedList<Score> list;
-		list.insert("0", "user");
+		list.insert(Score("0", "user"));
 
 		DoublyLinkedList<Score>::ConstIterator it0 = list.getTailConst();
 		DoublyLinkedList<Score>::Iterator it1;
