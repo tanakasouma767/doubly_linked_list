@@ -77,6 +77,14 @@ public:
         bool operator ==(ConstIterator itr) const;
 
         bool operator !=(ConstIterator itr) const;
+
+        bool operator <(ConstIterator itr) const;
+
+        bool operator >(ConstIterator itr) const;
+
+        bool operator <=(ConstIterator itr) const;
+
+        bool operator >=(ConstIterator itr) const;
     };
 
 
@@ -134,6 +142,14 @@ public:
 
     //末尾イテレータの取得 const版
     const ConstIterator endConst() const;
+
+    int swap(T& a, T& b);
+
+    Iterator partition(Iterator left, Iterator right);
+
+    int quicksort(Iterator left, Iterator right);
+
+    int sort(int order, int key);
 
     //デストラクタ
     virtual ~DoublyLinkedList();

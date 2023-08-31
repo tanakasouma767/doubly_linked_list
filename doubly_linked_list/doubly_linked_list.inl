@@ -44,7 +44,10 @@ DoublyLinkedList<T>::ConstIterator::ConstIterator(const ConstIterator& itr) {
 //参照要素を先頭方向へ移動
 template<typename T>
 typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator::operator --() {
-    assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
+    //assert(current != nullptr && refList != nullptr && !(refList->isSentinel(current->prev)));
+    assert(current != nullptr);
+    assert(refList != nullptr);
+    assert(!(refList->isSentinel(current->prev)));
 
     current = current->prev;
     return *this;
@@ -110,6 +113,59 @@ bool DoublyLinkedList<T>::ConstIterator::operator !=(ConstIterator itr) const {
     return current != (itr.current);
 }
 
+template<typename T>
+bool DoublyLinkedList<T>::ConstIterator::operator <=(ConstIterator itr) const {
+
+    ConstIterator i = *this;
+    ConstIterator tail = refList->getTailConst();
+
+    while (i != tail) {
+        if (i == itr) {
+            return true;
+        }
+        ++i;
+    }
+    if (i == itr) {
+        return true;
+    }
+
+    return false;
+}
+
+template<typename T>
+bool DoublyLinkedList<T>::ConstIterator::operator >=(ConstIterator itr) const {
+
+    ConstIterator i = *this;
+    ConstIterator begin = refList->beginConst();
+
+    while (i != begin) {
+        if (i == itr) {
+            return true;
+        }
+        --i;
+    }
+    if (i == itr) {
+        return true;
+    }
+
+    return false;
+}
+
+template<typename T>
+bool DoublyLinkedList<T>::ConstIterator::operator <(ConstIterator itr) const {
+
+    ConstIterator i = *this;
+
+    return (++i) <= itr;
+}
+
+template<typename T>
+bool DoublyLinkedList<T>::ConstIterator::operator >(ConstIterator itr) const {
+
+    ConstIterator i = *this;
+
+    return (--i) >= itr;
+}
 
 //イテレータクラス
 
@@ -267,6 +323,77 @@ template<typename T>
 const typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::endConst() const {
     ConstIterator itr(this, sentinel);
     return itr;
+}
+
+
+template<typename T>
+bool compare0(const T& a, const T& b) {
+    return a < b;
+}
+
+template<typename T>
+bool compare1(const T& a, const T& b) {
+    return a >= b;
+}
+
+template<typename T>
+int DoublyLinkedList<T>::swap(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
+
+    return 0;
+}
+
+#include <iostream>
+template<typename T>
+typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::partition(Iterator left, Iterator right) {
+    Iterator i = left;
+    Iterator j = right;
+    --j;
+
+    std::cout << "i = " << *i << ", j = " << *j << std::endl;;
+
+    while (i <= j) {
+        while (compare0(*i, *right)) {
+            ++i;
+            std::cout << "i = " << *i << std::endl;
+        }
+        while (compare1(*j, *right) && j >= i) {
+            --j;
+            std::cout << "j = " << *j << std::endl;
+        }
+        if (i < j) {
+            swap(*i, *j);
+        }
+    }
+    swap(*i, *right);
+
+    return i;
+}
+
+template<typename T>
+int DoublyLinkedList<T>::quicksort(Iterator left, Iterator right) {
+
+    Iterator pivot = partition(left, right);
+
+    Iterator pivot_left = pivot;
+    --pivot_left;
+    Iterator pivot_right = pivot;
+    ++pivot_right;
+
+    quicksort(left, pivot_left);
+    quicksort(pivot_right, right);
+
+    return 0;
+}
+
+template<typename T>
+int DoublyLinkedList<T>::sort(int order, int key) {
+
+    quicksort(begin(), getTail());
+
+    return 0;
 }
 
 template<typename T>

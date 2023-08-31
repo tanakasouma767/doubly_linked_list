@@ -1,7 +1,7 @@
 ﻿#include <fstream>
 #include <string> 
 #include "doubly_linked_list.inl"
-#include <iostream>
+//#include <iostream>
 
 
 int print_list_score(DoublyLinkedList<Score>& list) { //リストの要素を先頭から順に全て標準出力する
@@ -17,7 +17,7 @@ int print_list_score(DoublyLinkedList<Score>& list) { //リストの要素を先
 
 int main()
 {
-    
+    /*
     DoublyLinkedList<Score> scoreList;
 
     //テキストファイルのファイル名
@@ -51,19 +51,36 @@ int main()
 
     print_list_score(scoreList);
 
+    // scoreで昇順
+    scoreList.sort(0, 0);
+    */
 
-    /*
+    
     // int型リストの動作確認
     DoublyLinkedList<int> intList;
-    for (int i = 0; i < 10; i++) {
-        intList.insert(i);
-    }
+    intList.insert(4);
+    intList.insert(1);
+    intList.insert(6);
+    intList.insert(4);
+    intList.insert(9);
+    intList.insert(3);
+
     DoublyLinkedList<int>::Iterator iit;
     for (iit = intList.begin(); iit != intList.end(); ++iit) {
         printf("%d\n", (*iit));
     }
 
-    
+    //intList.sort(0,0);
+
+    DoublyLinkedList<int>::Iterator it0, it1;
+    it0 = intList.begin();
+    it1 = intList.end();
+
+    std::cout << (it0 < it1) << std::endl;
+    std::cout << (it0 > it1) << std::endl;
+
+
+    /*
     // string型リストの動作確認
     DoublyLinkedList <std::string> stringList;
     DoublyLinkedList<std::string>::Iterator sit;
